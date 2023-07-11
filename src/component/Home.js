@@ -245,14 +245,16 @@ function Home(props) {
 
   useEffect(() => {
     if (!weather && !forecast && location) {
-      dispatch(fetchWeather(lat, long));
       dispatch(fetchForecast(lat, long));
-    }
-
-    if (weather.current.is_day) {
-      setisday(true);
-    } else {
-      setisday(false);
+      dispatch(fetchWeather(lat, long)).then(async() => {
+        console.log("pehle idhar aya tha")
+        const ans = await weather.current.is_day;
+        if (ans) {
+          setisday(true);
+        } else {
+          setisday(false);
+        }
+      });
     }
     console.log(forecast);
   }, [dispatch, weather, forecast, location]);
